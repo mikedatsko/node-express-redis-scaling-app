@@ -1,0 +1,103 @@
+version: '3.2'
+services:
+  app:
+    image: app_scale
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: app_scale
+    working_dir: /app
+    command: yarn dev
+    restart: always
+    volumes:
+      - type: bind
+        source: ./libs
+        target: /app/libs
+      - type: bind
+        source: ./routes
+        target: /app/routes
+      - type: bind
+        source: ./views
+        target: /app/views
+      - type: bind
+        source: ./public
+        target: /app/public
+      - type: bind
+        source: ./app.js
+        target: /app/app.js
+    links:
+      - redis
+    ports:
+      - 3000:80
+    environment:
+      - REDIS_URL=redis://redis_server
+
+  app1:
+    image: app1_scale
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: app1_scale
+    working_dir: /app
+    command: yarn dev
+    restart: always
+    volumes:
+      - type: bind
+        source: ./libs
+        target: /app/libs
+      - type: bind
+        source: ./routes
+        target: /app/routes
+      - type: bind
+        source: ./views
+        target: /app/views
+      - type: bind
+        source: ./public
+        target: /app/public
+      - type: bind
+        source: ./app.js
+        target: /app/app.js
+    links:
+      - redis
+    ports:
+      - 3001:80
+    environment:
+      - REDIS_URL=redis://redis_server
+
+  app2:
+    image: app2_scale
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: app2_scale
+    working_dir: /app
+    command: yarn dev
+    restart: always
+    volumes:
+      - type: bind
+        source: ./libs
+        target: /app/libs
+      - type: bind
+        source: ./routes
+        target: /app/routes
+      - type: bind
+        source: ./views
+        target: /app/views
+      - type: bind
+        source: ./public
+        target: /app/public
+      - type: bind
+        source: ./app.js
+        target: /app/app.js
+    links:
+      - redis
+    ports:
+      - 3002:80
+    environment:
+      - REDIS_URL=redis://redis_server
+
+  redis:
+    image: 'redis:alpine'
+    container_name: redis_server
+    expose:
+      - 6379

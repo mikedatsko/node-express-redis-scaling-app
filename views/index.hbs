@@ -1,0 +1,46 @@
+<h1>{{title}}</h1>
+
+<div class="row">
+  <div>
+    <h2>Application 1</h2>
+    <p>Time: 8s</p>
+    <p>Message: Hello World</p>
+    <iframe src="http://localhost:3001/echoAtTime?time=8000&message=Hello%20World"></iframe>
+  </div>
+  <div>
+    <h2>Application 2</h2>
+    <p>Time: 5s</p>
+    <p>Message: Lorem Ipsum</p>
+    <iframe src="http://localhost:3002/echoAtTime?time=5000&message=Lorem%20Ipsum"></iframe>
+  </div>
+</div>
+
+<h2>Messages</h2>
+<div id="messages"></div>
+
+<script>
+  const $messages = $('#messages');
+  let interval = 0;
+
+  window.onload = function () {
+    setTimeout(checkMessages, 1000);
+  };
+
+  function checkMessages() {
+    $.ajax({
+      url: '/messages/' + interval
+    })
+      .done(response => {
+        if (response) {
+          $messages.append('<p>' + response + '</p>');
+        }
+
+        interval += 1000;
+        setTimeout(checkMessages, 1000);
+      })
+      .fail(error => {
+        interval += 1000;
+        setTimeout(checkMessages, 1000);
+      });
+  }
+</script>

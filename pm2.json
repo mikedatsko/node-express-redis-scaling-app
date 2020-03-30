@@ -1,0 +1,14 @@
+{
+  "apps": [
+    {
+      "name": "app-demo-scale",
+      "script": "npm",
+      "args": "run start",
+      "log_date_format": "YYYY-MM-DD HH:mm:ss Z",
+      "instances": "2",
+      "cwd": ".",
+      "watch": true,
+      "exec_mode": "cluster"
+    }
+  ]
+}
